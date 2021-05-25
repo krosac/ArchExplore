@@ -14,7 +14,4 @@ cd boost_1_64_0
 ./bootstrap.sh
 ./b2
 ```
-Verify installed Boost version
-```
-dpkg -s libboost-dev | grep Version
-```
+Update compiler include path and linker path accordingly to ``C_INCLUDE_PATH``, ``CPLUS_INCLUDE_PATH`` and ``LD_LIBRARY_PATH``.
