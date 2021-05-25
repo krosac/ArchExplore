@@ -4,7 +4,8 @@
 
 ## Troubleshooting for Timeloop Installation
 
-* libboost error 
+* libboost error
+ 
 [https://github.com/NVlabs/timeloop/issues/3](https://github.com/NVlabs/timeloop/issues/3) solved by installing libboost 1.64
 ```
 wget https://boostorg.jfrog.io/artifactory/main/release/1.64.0/source/boost_1_64_0.tar.gz
