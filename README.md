@@ -25,4 +25,4 @@ cd boost_1_64_0
 ./b2
 sudo ./b2 install
 ```
-
+After these steps, ``scons -j4`` completes.
