@@ -2,6 +2,8 @@
 
 [https://github.com/NVlabs/timeloop](https://github.com/NVlabs/timeloop)
 
+testcase: [05-mapper-conv1d+oc-3level](https://github.com/Accelergy-Project/timeloop-accelergy-exercises/tree/master/exercises/timeloop/05-mapper-conv1d%2Boc-3level)
+
 ## Troubleshooting for Timeloop Installation
 
 * libboost error
