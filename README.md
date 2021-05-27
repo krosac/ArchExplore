@@ -51,3 +51,18 @@ mkdir build;cd build
 cmake -DCMAKE_PREFIX_PATH=/absolute/path/to/libtorch ..
 make -j4
 ```
+
+* install python deps to run the example
+
+Install baselines (old version).
+```
+git clone https://github.com/openai/baselines
+cd baselines
+# pip install tensorflow-gpu==1.14 # if you have a CUDA-compatible gpu and proper drivers
+pip install -e .
+```
+Install pybox2d for LunarLander environment.
+```
+pip install box2d-py
+```
+
