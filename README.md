@@ -4,6 +4,8 @@
 
 testcase: [05-mapper-conv1d+oc-3level](https://github.com/Accelergy-Project/timeloop-accelergy-exercises/tree/master/exercises/timeloop/05-mapper-conv1d%2Boc-3level)
 
+[https://github.com/Omegastick/pytorch-cpp-rl](https://github.com/Omegastick/pytorch-cpp-rl)
+
 ## Troubleshooting for Timeloop Installation
 
 * libboost error
@@ -28,3 +30,24 @@ cd boost_1_64_0
 sudo ./b2 install
 ```
 After these steps, ``scons -j4`` completes.
+
+## Troubleshooting for pytorch-cpp-rl installation
+
+```
+git clone https://github.com/Omegastick/pytorch-cpp-rl.git
+git submodule update --init --recursive
+```
+
+* install libtorch (PyTorch's C++ distribution)
+
+Download PyTorch 1.4.0 (latest not compatible with this c++ rl impl). Follow [https://pytorch.org/cppdocs/installing.html](https://pytorch.org/cppdocs/installing.html).
+```
+wget https://download.pytorch.org/libtorch/cpu/libtorch-shared-with-deps-1.4.0%2Bcpu.zip
+unzip libtorch-shared-with-deps-1.4.0+cpu.zip
+```
+Build pytorch-cpp-rl
+```
+mkdir build;cd build
+cmake -DCMAKE_PREFIX_PATH=/absolute/path/to/libtorch ..
+make -j4
+```
