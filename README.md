@@ -1,5 +1,7 @@
 # ArchExplore
 
+This project will integrate RL into the search algorithms in Timeloop.
+
 Timeloop: [https://github.com/NVlabs/timeloop](https://github.com/NVlabs/timeloop)
 
 Testcase: [05-mapper-conv1d+oc-3level](https://github.com/Accelergy-Project/timeloop-accelergy-exercises/tree/master/exercises/timeloop/05-mapper-conv1d%2Boc-3level)
