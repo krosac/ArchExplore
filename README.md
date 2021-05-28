@@ -1,10 +1,10 @@
 # ArchExplore
 
-[https://github.com/NVlabs/timeloop](https://github.com/NVlabs/timeloop)
+Timeloop: [https://github.com/NVlabs/timeloop](https://github.com/NVlabs/timeloop)
 
-testcase: [05-mapper-conv1d+oc-3level](https://github.com/Accelergy-Project/timeloop-accelergy-exercises/tree/master/exercises/timeloop/05-mapper-conv1d%2Boc-3level)
+Testcase: [05-mapper-conv1d+oc-3level](https://github.com/Accelergy-Project/timeloop-accelergy-exercises/tree/master/exercises/timeloop/05-mapper-conv1d%2Boc-3level)
 
-[https://github.com/Omegastick/pytorch-cpp-rl](https://github.com/Omegastick/pytorch-cpp-rl)
+RL C++: [https://github.com/Omegastick/pytorch-cpp-rl](https://github.com/Omegastick/pytorch-cpp-rl)
 
 ## Troubleshooting for Timeloop Installation
 
