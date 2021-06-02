@@ -68,3 +68,15 @@ Install pybox2d for LunarLander environment.
 pip install box2d-py
 ```
 
+## Evaluation
+
+##### Baseline 1 (05-mapper-conv1d+oc-3level)
+
+* Linear-pruned Search
+
+EvalFailure : 6704
+
+Success : 256656
+
+* Hybrid
+* Random-pruned
