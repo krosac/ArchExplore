@@ -133,6 +133,8 @@ Success : 29409
 Total : 32065
 
 ```
-![](https://github.com/krosac/ArchExplore/blob/main/images/linear-pruned.png)
+|![](https://github.com/krosac/ArchExplore/blob/main/images/linear-pruned.png)|![](https://github.com/krosac/ArchExplore/blob/main/images/linear-pruned_vc500.png)|
+|:--:|:--:|
+|victory condition=0|victory condition=500|
 
 Quite random search results, since the cost (edp) is not keeping improving.
