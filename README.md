@@ -83,7 +83,7 @@ Mapspace Dimension [DatatypeBypass] Size: 64
 Mapspace split! Per-split Mapping Dimension [IndexFactorization] Size: 945 Residue: 0
 ```
 
-* Linear-pruned Search
+* Linear-pruned Search (search algorithms supported by Timeloop: [https://github.com/NVlabs/timeloop/blob/master/doc/mapper.md](https://github.com/NVlabs/timeloop/blob/master/doc/mapper.md))
 
 ```
 [  0] Utilization = 1.00 | pJ/MACC =  366.917 | L2[WIO] P1 - L1[] P1 - L0[] P16 R3 K32
