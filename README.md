@@ -133,6 +133,8 @@ Success : 256656
 Total : 263360
 
 ```
+![](https://github.com/krosac/ArchExplore/blob/main/images/linear-pruned.png)
+Quite random search results, since the cost (edp) is not keeping improving.
 
 * Hybrid
 * Random-pruned
