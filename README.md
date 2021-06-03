@@ -128,14 +128,11 @@ Fail class: Capacity
 Summary stats for best mapping found by mapper:
   Utilization = 1.00 | pJ/MACC =   43.909
 =========Status Stats==========
-EvalFailure : 6704
-Success : 256656
-Total : 263360
+EvalFailure : 2656
+Success : 29409
+Total : 32065
 
 ```
 ![](https://github.com/krosac/ArchExplore/blob/main/images/linear-pruned.png)
 
 Quite random search results, since the cost (edp) is not keeping improving.
-
-* Hybrid
-* Random-pruned
