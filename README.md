@@ -8,6 +8,8 @@ Testcase: [05-mapper-conv1d+oc-3level](https://github.com/Accelergy-Project/time
 
 RL C++: [https://github.com/Omegastick/pytorch-cpp-rl](https://github.com/Omegastick/pytorch-cpp-rl)
 
+This work integrates RL agent as a socket server at [https://github.com/krosac/ArchExplore/blob/main/timeloop/src/search/rl.hpp](https://github.com/krosac/ArchExplore/blob/main/timeloop/src/search/rl.hpp).
+
 ## Troubleshooting for Timeloop Installation
 
 * libboost error
