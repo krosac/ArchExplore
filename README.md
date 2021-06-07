@@ -1,103 +1,140 @@
-# Timeloop user guide
+# ArchExplore
 
-## Getting started
+This project will integrate RL into the search algorithms in Timeloop.
 
-* Install the following dependencies.
-```
-scons
-libconfig++-dev
-libboost-dev
-libboost-iostreams-dev
-libboost-serialization-dev
-libyaml-cpp-dev
-libncurses-dev
-libtinfo-dev
-libgpm-dev
-```
+Timeloop: [https://github.com/NVlabs/timeloop](https://github.com/NVlabs/timeloop)
 
-* Clone the timeloop repository.
-```
-mkdir timeloop-dev
-cd timeloop-dev
-git clone ssh://path/to/timeloop.git
-```
+Testcase: [05-mapper-conv1d+oc-3level](https://github.com/Accelergy-Project/timeloop-accelergy-exercises/tree/master/exercises/timeloop/05-mapper-conv1d%2Boc-3level)
 
-* In addition to the main source code, you need the source code for a
-  power-area-timing (pat) model to build timeloop. A placeholder pat model
-  is included in the main repository. Before building timeloop, place a
-  symbolic link to the pat model like so:
-```
-cd timeloop/src
-ln -s ../pat-public/src/pat .
-cd ..
-```
+RL C++: [https://github.com/Omegastick/pytorch-cpp-rl](https://github.com/Omegastick/pytorch-cpp-rl)
 
-* Instead of the included placeholder pat model, you may build against any
-  other custom pat model, as long as it exports the same interface as the
-  pat/pat.hpp in the included model. The implementation must be in a
-  pat/pat.cpp file. As before, create a symbolic link to the source code for
-  the power-area-timing model and place it in `src/pat`, for example:
-```
-git clone ssh://path/to/timeloop-pat[XXX].git
-cd timeloop/src
-ln -s ../../timeloop-pat[XXX]/src/pat .
-cd ..
-```
+## Troubleshooting for Timeloop Installation
 
-* Another way to provide a power/energy model to Timeloop is to integrate
-[Accelergy](http://accelergy.mit.edu) with Timeloop. To do so, you need to
-either install Accelergy so that the shell can find it (i.e., `which accelergy`
-works), or provide the path to Accelergy binary as an environmental variable,
-`ACCELERGYPATH`, when running Timeloop.
+* libboost error
+ 
+[https://github.com/NVlabs/timeloop/issues/3](https://github.com/NVlabs/timeloop/issues/3) solved by installing libboost 1.64
 
-When building timeloop in the next step, you also need to provide an extra
-`--accelergy` flag to `scons` so that it builds Timeloop and makes it use
-Accelergy for the energy model.
+First remove **all** old boost headers and libs under ``/usr/include/``, ``/usr/local/include``, ``/usr/local/lib``, ``/usr/lib``, ``/usr/lib/x86_64-linux-gnu``. 
+This step is necessary before installing new boost version because if there are multiple boost libs under ``LD_LIBRARY_PATH``, linker might choose the wrong one.
+To make sure linker pick the new boost version, we must purge all old boost headers and libs.
+For example,
+```
+sudo rm -r /usr/include/boost
+sudo rm /usr/lib/x86_64-linux-gnu/libboost*
+```
+Then install boost 1.64.
+```
+wget https://boostorg.jfrog.io/artifactory/main/release/1.64.0/source/boost_1_64_0.tar.gz
+tar -xzvf boost_1_64_0.tar.gz
+cd boost_1_64_0
+./bootstrap.sh
+./b2
+sudo ./b2 install
+```
+After these steps, ``scons -j4`` completes.
+
+## Troubleshooting for pytorch-cpp-rl installation
 
 ```
-scons --accelergy
+git clone https://github.com/Omegastick/pytorch-cpp-rl.git
+git submodule update --init --recursive
 ```
 
-* Once the pat link is set up, you can build timeloop using scons.
-```
-scons -j4
-```
-This builds 3 different tools:
-* `timeloop-mapper` is the complete application that instantiates an architecture,
-  constructs its mapspace, searches for an optimal mapping within the mapspace
-  and reports statistics for the optimal mapping.
-* `timeloop-model` instantiates an architecture, evalutes a specific given
-  mapping of a workload and reports the statistics.
-* `timeloop-metrics` simply instantiates an architecture and reports its
-  workload-independent characteristics such as area and energy-per-access
-  for various architectural structures.
+* install libtorch (PyTorch's C++ distribution)
 
-* By default, the scons script will use shared (dynamic) linking. The timeloop
-  libraries will be placed in the `lib/` subdirectory. You can manually add that
-  to `LD_LIBRARY_PATH`, or if you are using bash you can just source the provided
-  environment setup script:
+Download PyTorch 1.4.0 (latest not compatible with this c++ rl impl). Follow [https://pytorch.org/cppdocs/installing.html](https://pytorch.org/cppdocs/installing.html).
 ```
-source env/setup-env.bash
+wget https://download.pytorch.org/libtorch/cpu/libtorch-shared-with-deps-1.4.0%2Bcpu.zip
+unzip libtorch-shared-with-deps-1.4.0+cpu.zip
+```
+Build pytorch-cpp-rl
+```
+mkdir build;cd build
+cmake -DCMAKE_PREFIX_PATH=/absolute/path/to/libtorch ..
+make -j4
 ```
 
-* Run timeloop with a sample configuration.
+* install python deps to run the example
+
+Install baselines (old version).
 ```
-cd configs/mapper
-../../build/timeloop-mapper ./sample.yaml > sample.out
+git clone https://github.com/openai/baselines
+cd baselines
+# pip install tensorflow-gpu==1.14 # if you have a CUDA-compatible gpu and proper drivers
+pip install -e .
+```
+Install pybox2d for LunarLander environment.
+```
+pip install box2d-py
 ```
 
-This will place timeloop's log in `sample.out` and generate the following outputs:
-* `timeloop-mapper.stats.txt` Simulation stats (performance, energy, etc.)
-* `timeloop-mapper.map.txt/cfg` The optimal mapping in different formats
-  (the latter can be used in conjunction with the
-  input architecture and problem spec to re-run the model on the optimal
-  mapping.)
-* `timeloop-mapper.map+stats.xml` An XML-formatted copy of the stats and optimal mapping
-  which is used by various Python scripts to extract results from batch runs.
+## Evaluation
 
-## Further reading
+##### Baseline 1 (05-mapper-conv1d+oc-3level)
+```
+Initializing Index Factorization subspace.
+  Factorization options along problem dimension K = 21
+  Factorization options along problem dimension R = 3
+  Factorization options along problem dimension P = 15
+Mapspace Dimension [IndexFactorization] Size: 945
+Mapspace Dimension [LoopPermutation] Size: 36
+Mapspace Dimension [Spatial] Size: 1
+Mapspace Dimension [DatatypeBypass] Size: 64
+Mapspace split! Per-split Mapping Dimension [IndexFactorization] Size: 945 Residue: 0
+```
 
-Serially walking through the exercises in our [Timeloop tutorial series](https://github.com/jsemer/timeloop-accelergy-exercises/tree/master/exercises/timeloop) serves as an excellent hands-on introduction to the tool.
+* Linear-pruned Search (search algorithms supported by Timeloop: [https://github.com/NVlabs/timeloop/blob/master/doc/mapper.md](https://github.com/NVlabs/timeloop/blob/master/doc/mapper.md))
 
-For a deeper technical overview please read our [ISPASS 2019 paper](http://parashar.org/ispass19.pdf).
+```
+[  0] Utilization = 1.00 | pJ/MACC =  366.917 | L2[WIO] P1 - L1[] P1 - L0[] P16 R3 K32
+[  0] Utilization = 1.00 | pJ/MACC =  280.519 | L2[WIO] P1 - L1[W] P1 - L0[] P16 R3 K32
+[  0] Utilization = 1.00 | pJ/MACC =  269.495 | L2[WIO] P1 - L1[] P1 - L0[I] P16 R3 K32
+[  0] Utilization = 1.00 | pJ/MACC =  183.097 | L2[WIO] P1 - L1[W] P1 - L0[I] P16 R3 K32
+[  0] Utilization = 1.00 | pJ/MACC =  161.025 | L2[WIO] P1 - L1[WO] P1 - L0[] P16 R3 K32
+[  0] Utilization = 1.00 | pJ/MACC =  150.001 | L2[WIO] P1 - L1[O] P1 - L0[I] P16 R3 K32
+[  0] Utilization = 1.00 | pJ/MACC =   63.603 | L2[WIO] P1 - L1[WO] P1 - L0[I] P16 R3 K32
+[  0] Utilization = 1.00 | pJ/MACC =   43.909 | L2[WIO] P1 - L1[] K32 - L0[WIO] P16 R3
+[  0] STATEMENT: search algorithm is done, terminating search.
 
+===============================================
+               BEGIN DIAGNOSTICS
+-----------------------------------------------
+Fail class: Capacity
+
+  Level: RegisterFile
+    Fail count: 6704
+    Sample mapping that experienced this fail class:
+
+      MainMemory [ Weights:96 Inputs:18 Outputs:512 ]
+      -----------------------------------------------
+      | for P in [0:2)
+      |   for R in [0:3)
+
+      GlobalBuffer [ Outputs:256 ]
+      ----------------------------
+      |     for K in [0:2)
+
+      RegisterFile [ Weights:16 Inputs:8 Outputs:128 ]
+      ------------------------------------------------
+      |       for P in [0:8)
+      |         for K in [0:16)
+
+    Fail reason: mapped tile size 96 exceeds buffer capacity 64
+
+-----------------------------------------------
+                 END DIAGNOSTICS
+===============================================
+
+Summary stats for best mapping found by mapper:
+  Utilization = 1.00 | pJ/MACC =   43.909
+=========Status Stats==========
+EvalFailure : 2656
+Success : 29409
+Total : 32065
+
+```
+|![](https://github.com/krosac/ArchExplore/blob/main/images/linear-pruned.png)|![](https://github.com/krosac/ArchExplore/blob/main/images/linear-pruned_vc500.png)|
+|:--:|:--:|
+|victory condition=0|victory condition=500|
+
+Quite random search results, since the cost (edp) is not keeping improving.
