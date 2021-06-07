@@ -1,12 +1,12 @@
 # ArchExplore
 
-This project will integrate RL into the search algorithms in Timeloop.
+This project aims to integrate RL into the search algorithms in Timeloop based on
 
-Timeloop: [https://github.com/NVlabs/timeloop](https://github.com/NVlabs/timeloop)
+* Timeloop: [https://github.com/NVlabs/timeloop](https://github.com/NVlabs/timeloop)
 
-Testcase: [05-mapper-conv1d+oc-3level](https://github.com/Accelergy-Project/timeloop-accelergy-exercises/tree/master/exercises/timeloop/05-mapper-conv1d%2Boc-3level)
+* Testcase: [05-mapper-conv1d+oc-3level](https://github.com/Accelergy-Project/timeloop-accelergy-exercises/tree/master/exercises/timeloop/05-mapper-conv1d%2Boc-3level)
 
-RL C++: [https://github.com/Omegastick/pytorch-cpp-rl](https://github.com/Omegastick/pytorch-cpp-rl)
+* RL C++: [https://github.com/Omegastick/pytorch-cpp-rl](https://github.com/Omegastick/pytorch-cpp-rl)
 
 This work integrates RL agent as a socket server at [https://github.com/krosac/ArchExplore/blob/main/timeloop/src/search/rl.hpp](https://github.com/krosac/ArchExplore/blob/main/timeloop/src/search/rl.hpp).
 
