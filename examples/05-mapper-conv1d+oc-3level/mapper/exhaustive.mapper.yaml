@@ -1,0 +1,8 @@
+mapper:
+  optimization-metric: [ delay, energy ]
+  num-threads: 1
+  algorithm: rl
+  victory-condition: 0
+  timeout: 1000
+  diagnostics: true
+
