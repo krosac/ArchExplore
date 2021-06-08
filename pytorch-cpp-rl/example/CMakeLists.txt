@@ -1,5 +1,5 @@
 add_executable(gym_client gym_client.cpp communicator.cpp)
-#add_library(gym_client SHARED communicator.cpp)
+add_library(gym-client SHARED communicator.cpp)
 
 set(LIB_DIR ${CMAKE_CURRENT_LIST_DIR}/lib)
 set(CPPZMQ_DIR ${LIB_DIR}/cppzmq)
@@ -25,4 +25,4 @@ target_include_directories(gym_client
 )
 
 target_link_libraries(gym_client PRIVATE libzmq-static cpprl)
-#target_link_libraries(gym_client PRIVATE libzmq-static)
+target_link_libraries(gym-client PRIVATE libzmq-static)
