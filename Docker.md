@@ -17,6 +17,9 @@ sudo docker run --rm --pid=host\
                      timeloop-rl:1.0\
                      /bin/bash
 ```
+```
+sudo rm -rf /var/lib/docker
+```
 
 ```
 mkdir timeloop/build
