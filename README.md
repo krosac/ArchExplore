@@ -10,6 +10,55 @@ This project aims to integrate RL into the search algorithms in Timeloop based o
 
 This work integrates RL agent as a socket server at [https://github.com/krosac/ArchExplore/blob/main/timeloop/src/search/rl.hpp](https://github.com/krosac/ArchExplore/blob/main/timeloop/src/search/rl.hpp).
 
+## Docker Build
+```
+cd docker
+```
+Install docker
+```
+sudo sh install_docker.sh
+```
+Build docker
+```
+sudo docker build -f Dockerfile --tag timeloop-rl:1.0 .
+```
+Run a new instance in docker 
+```
+sudo docker run --rm --pid=host\
+                     --mount src="$(pwd)"/..,target=/workspace,type=bind\
+                     -w /workspace\
+                     -e "CI_BUILD_HOME=/workspace"\
+                     -e "CI_BUILD_USER=$(id -u -n)"\
+                     -e "CI_BUILD_UID=$(id -u)"\
+                     -e "CI_BUILD_GROUP=$(id -g -n)"\
+                     -e "CI_BUILD_GID=$(id -g)"\
+                     -h timeloop-rl-docker\
+                     --name timeloop-rl\
+                     -it --net=host\
+                     timeloop-rl:1.0\
+                     /bin/bash
+```
+Build pytorch-cpp-rl and Timeloop inside docker
+```
+sh build_pytorch-cpp-rl.sh
+sh build_timeloop.sh
+```
+
+## Run Example
+Inside docker
+```
+cd examples/05-mapper-conv1d+oc-3level
+sh run.sh
+```
+Dettach with ``ctrl+p`` followed by ``ctrl+q``
+
+Open a new ternimal and launch RL agent client
+```
+cd /root/directory/of/this/repo/
+sudo docker exec -it timeloop-rl ./pytorch-cpp-rl/build/example/gym_client
+```
+You can see Timeloop interacts with RL agent.
+
 ## Evaluation
 
 ##### Baseline 1 (05-mapper-conv1d+oc-3level)
