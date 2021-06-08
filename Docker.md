@@ -1,4 +1,8 @@
 ```
+sudo docker build -f Dockerfile --tag timeloop-rl:1.0 .
+```
+
+```
 sudo docker run --rm --pid=host\
                      --mount src="$(pwd)"/..,target=/workspace,type=bind\
                      -w /workspace\
@@ -12,6 +16,10 @@ sudo docker run --rm --pid=host\
                      -it --net=host\
                      timeloop-rl:1.0\
                      /bin/bash
+```
+```
+sudo apt-get purge docker-ce docker-ce-cli containerd.io
+sudo rm -rf /var/lib/docker
 ```
 
 ```
