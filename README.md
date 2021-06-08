@@ -129,3 +129,7 @@ Total : 32065
 |victory condition=0|victory condition=500|
 
 Quite random search results, since the cost (edp) is not keeping improving.
+
+|![](https://github.com/krosac/ArchExplore/blob/main/images/05-cost.png)|![](https://github.com/krosac/ArchExplore/blob/main/images/05-invalids.png)|
+|:--:|:--:|
+|edp cost|invalid mappings evaluated during the search|
