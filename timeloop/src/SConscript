@@ -44,7 +44,7 @@ if GetOption('link_static'):
     env.Append(LIBS = ['timeloop-model'])
 
 env.Append(LINKFLAGS = ['-std=c++11', '-static-libgcc', '-static-libstdc++', '-pthread'])
-env.Append(LIBS = ['config++', 'yaml-cpp', 'ncurses', 'gym_client'])
+env.Append(LIBS = ['config++', 'yaml-cpp', 'ncurses', 'gym-client'])
 
 if GetOption('link_static'):
     print("Using static linking.")
