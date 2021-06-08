@@ -64,7 +64,6 @@ class RLSearch : public SearchAlgorithm
 
   double best_cost_;
   std::ofstream best_cost_file_;
-  
 
  public:
   Communicator* comm_;
@@ -73,6 +72,7 @@ class RLSearch : public SearchAlgorithm
   int samples;
   std::unordered_map<unsigned, unsigned> bound;
   double last_cost_;
+  double best;
   
   RLSearch(config::CompoundConfigNode config, mapspace::MapSpace* mapspace, unsigned id) :
       SearchAlgorithm(),
@@ -84,7 +84,8 @@ class RLSearch : public SearchAlgorithm
       best_cost_(0),
       envs(0),
       samples(0),
-      last_cost_(0)
+      last_cost_(0),
+      best(0)
   {
     comm_ = new Communicator("tcp://*:10201");
     comm_->ConnectClient();
@@ -131,7 +132,7 @@ class RLSearch : public SearchAlgorithm
     {
       std::cout << mapspace_->Size(mapspace::Dimension::LoopPermutation) << "\n";
       // Prune the mapspace for the first time.
-      mapspace_->InitPruned(iterator_[unsigned(mapspace::Dimension::IndexFactorization)]);
+      mapspace_->InitPruned(0);
       std::cout << mapspace_->Size(mapspace::Dimension::LoopPermutation) << "\n";
     }
     for (auto dim : dim_order_) {
@@ -237,6 +238,15 @@ class RLSearch : public SearchAlgorithm
     return true;
   }
 
+  unsigned StepSize(mapspace::Dimension dim) {
+    if (rand() / double(RAND_MAX) < 0.01) {
+      return unsigned(ceil((float)bound[unsigned(dim)] * 0.01));
+    } else {
+      return 1;
+    }
+  }
+  
+  
   void Report(Status status, double cost = 0)
   {
     assert(state_ == State::WaitingForStatus);
@@ -268,7 +278,7 @@ class RLSearch : public SearchAlgorithm
     if (valid_mappings_ > 1 && last_cost_ > custom_cost) {
       ed_ep = true;
     } else if (cost == 0) {
-      ed_ep = true;
+      //ed_ep = true;
     }   
     std::vector<std::vector<bool>> done = {{ed_ep}};
     last_cost_ = custom_cost;
@@ -285,7 +295,13 @@ class RLSearch : public SearchAlgorithm
     if (status == Status::Success)
     {
       valid_mappings_++;
-
+        
+      if (best == 0 && cost > 0) {
+        best = cost;  
+      } else if (cost > 0) {
+        best = std::min(best, cost);
+      }  
+        
       if (best_cost_ == 0)
         best_cost_ = cost;
       else
@@ -364,9 +380,12 @@ class RLSearch : public SearchAlgorithm
     // iterator_ element is unsigned, if 0-1=-1---> very large unsigned number
     for (auto dim : dim_order_) {
       if (iterator_[unsigned(dim)] == bound[unsigned(dim)]) {
-        iterator_[unsigned(dim)] = bound[unsigned(dim)] - 1;
+        iterator_[unsigned(dim)] = 0;
+        //iterator_[unsigned(dim)] = bound[unsigned(dim)] - 1;
+        //iterator_[unsigned(dim)] = unsigned(ceil((bound[unsigned(dim)] - 1) * rand() / double(RAND_MAX)));
       } else if (iterator_[unsigned(dim)] > bound[unsigned(dim)]) {
         iterator_[unsigned(dim)] = 0;
+        //iterator_[unsigned(dim)] = unsigned(ceil((bound[unsigned(dim)] - 1) * rand() / double(RAND_MAX)));
       }
     }
     std::cerr << "MAPPING ID: IF(" << iterator_[unsigned(mapspace::Dimension::IndexFactorization)]
