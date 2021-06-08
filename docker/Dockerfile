@@ -1,7 +1,6 @@
 FROM ubuntu:16.04
 
 ENV VER=00
-COPY install.sh /install/install.sh
 
 RUN apt-get update && \
       apt-get -y install sudo
@@ -26,6 +25,7 @@ RUN wget https://boostorg.jfrog.io/artifactory/main/release/1.64.0/source/boost_
 RUN cd boost_1_64_0 && ./bootstrap.sh && ./b2 && ./b2 install
 
 # install timeloop + rl-cpp
+RUN rm -r /usr/include/boost && rm /usr/lib/x86_64-linux-gnu/libboost*
 #RUN cd workspace/timeloop && mkdir build
 ENV CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/workspace/pytorch-cpp-rl/example/lib/spdlog/include:/workspace/pytorch-cpp-rl/example/lib/libzmq/include:/workspace/pytorch-cpp-rl/example/lib/msgpack-c/include
 RUN wget https://download.pytorch.org/libtorch/cpu/libtorch-shared-with-deps-1.4.0%2Bcpu.zip && unzip libtorch-shared-with-deps-1.4.0+cpu.zip
@@ -33,3 +33,4 @@ RUN wget https://download.pytorch.org/libtorch/cpu/libtorch-shared-with-deps-1.4
 #    cmake -DCMAKE_PREFIX_PATH=/workspace/libtorch/ .. && \
 #    mv example/libgym-client.so ../../timeloop/build/
 ENV LD_LIBRARY_PATH=/workspace/timeloop/build:/boost_1_64_0/stage/lib/:$LD_LIBRARY_PATH
+ENV PATH=/workspace/timeloop/bin:$PATH
