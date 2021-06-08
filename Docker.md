@@ -18,6 +18,7 @@ sudo docker run --rm --pid=host\
                      /bin/bash
 ```
 ```
+sudo apt-get purge docker-ce docker-ce-cli containerd.io
 sudo rm -rf /var/lib/docker
 ```
 
