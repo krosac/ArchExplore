@@ -50,7 +50,7 @@ Inside docker
 cd examples/05-mapper-conv1d+oc-3level
 sh run.sh
 ```
-Dettach with ``ctrl+p`` followed by ``ctrl+q``
+Detach with ``ctrl+p`` followed by ``ctrl+q``
 
 Open a new ternimal and launch RL agent client
 ```
