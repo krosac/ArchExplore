@@ -135,7 +135,7 @@ Quite random search results, since the cost (edp) is not keeping improving.
 |edp cost|invalid mappings evaluated during the search|
 
 In this testcase, we can find that 
-* RL keeps imroving the edp even starting at a bad point
+* RL keeps improving the edp even starting at a bad point
 * RL results in less invalid mappings during the search (means more valid points wihtin limited time)
 
 
